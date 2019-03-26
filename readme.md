@@ -1,6 +1,6 @@
 # com.ugf.code.analysis
 
-UGF.code.Analysis
+UGF.Code.Analysis
 
 ## Info
 
