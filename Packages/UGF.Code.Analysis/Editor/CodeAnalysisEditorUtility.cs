@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using UnityEngine;
 
 namespace UGF.Code.Analysis.Editor
 {
@@ -8,8 +12,7 @@ namespace UGF.Code.Analysis.Editor
     {
         public static string AddLeadingTrivia(string text, List<string> trivia)
         {
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(text);
-            SyntaxNode root = tree.GetRoot();
+            SyntaxNode root = SyntaxFactory.ParseSyntaxTree(text).GetRoot();
             SyntaxTriviaList leadingTrivia = root.GetLeadingTrivia();
 
             for (int i = 0; i < trivia.Count; i++)
@@ -28,6 +31,20 @@ namespace UGF.Code.Analysis.Editor
             root = root.WithLeadingTrivia(leadingTrivia);
 
             return root.ToFullString();
+        }
+
+        public static TypeDeclarationSyntax AddAttributeToTypeDeclaration(TypeDeclarationSyntax typeDeclaration, Type attributeType)
+        {
+            AttributeListSyntax attributes = SyntaxFactory.AttributeList();
+            string attributeName = !string.IsNullOrEmpty(attributeType.Namespace) ? $"{attributeType.Namespace}.{attributeType.Name}" : attributeType.Name;
+            AttributeSyntax attribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName(attributeName));
+
+            attributes = attributes.AddAttributes(attribute);
+            attributes = attributes.WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
+
+            typeDeclaration = typeDeclaration.AddAttributeLists(attributes);
+
+            return typeDeclaration;
         }
     }
 }
