@@ -28,7 +28,7 @@ namespace Test
 ";
         
         [Test]
-        public void AddLeadingCommentsToSource()
+        public void AddLeadingTrivia()
         {
             var comments = new List<string> { "// Comment0", "// Comment1" };
             string script = CodeAnalysisEditorUtility.AddLeadingTrivia(m_script, comments);
