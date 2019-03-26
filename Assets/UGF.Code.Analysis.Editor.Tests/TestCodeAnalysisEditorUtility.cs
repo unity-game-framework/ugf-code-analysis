@@ -1,21 +1,39 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEditor;
 
 namespace UGF.Code.Analysis.Editor.Tests
 {
     public class TestCodeAnalysisEditorUtility
     {
+        private readonly string m_script = @"using System
+
+namespace Test
+{
+    public class Target
+    {
+    }   
+}
+";
+        private readonly string m_scriptWithComments = @"// Comment0
+// Comment1
+
+using System
+
+namespace Test
+{
+    public class Target
+    {
+    }   
+}
+";
+        
         [Test]
-        public void Test()
+        public void AddLeadingCommentsToSource()
         {
-            string path = "Assets/UGF.Code.Analysis.Editor.Tests/TestCodeAnalysisEditorUtility.cs";
-            string text = AssetDatabase.LoadAssetAtPath<MonoScript>(path).text;
+            var comments = new List<string> { "// Comment0", "// Comment1" };
+            string script = CodeAnalysisEditorUtility.AddLeadingTrivia(m_script, comments);
             
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(text);
-            
-            Assert.NotNull(tree);
+            Assert.AreEqual(m_scriptWithComments, script);
         }
     }
 }
