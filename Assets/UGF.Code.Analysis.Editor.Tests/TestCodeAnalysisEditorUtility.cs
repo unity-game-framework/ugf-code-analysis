@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -13,28 +8,34 @@ namespace UGF.Code.Analysis.Editor.Tests
 {
     public class TestCodeAnalysisEditorUtility
     {
-        private readonly string m_script = @"using System
+        private readonly string m_script = @"using System;
 
 namespace Test
 {
     public class Target
     {
     }   
-}
-";
+}";
 
         private readonly string m_scriptWithComments = @"// Comment0
 // Comment1
-
-using System
+using System;
 
 namespace Test
 {
     public class Target
     {
-    }   
-}
-";
+    }
+}";
+
+        private readonly string m_scriptPath = "Assets/UGF.Code.Analysis.Editor.Tests/TestTarget.cs";
+
+        private readonly List<string> m_sources = new List<string>
+        {
+            "using System;",
+            "using System;\nusing System.Collections;",
+            "using UnityEngine;"
+        };
 
         [Test]
         public void AddLeadingTrivia()
@@ -46,49 +47,34 @@ namespace Test
         }
 
         [Test]
-        public void AddAttribute()
+        public void AddAttributeToClassDeclaration()
         {
-            var unit = (CompilationUnitSyntax)SyntaxFactory.ParseSyntaxTree(m_script).GetRoot();
-            TypeDeclarationSyntax declaration = unit.DescendantNodes().OfType<TypeDeclarationSyntax>().FirstOrDefault();
+            string script = AssetDatabase.LoadAssetAtPath<MonoScript>(m_scriptPath).text;
 
-            Assert.NotNull(declaration);
+            script = CodeAnalysisEditorUtility.AddAttributeToClassDeclaration(script, typeof(PreserveAttribute), false);
 
-            declaration = CodeAnalysisEditorUtility.AddAttributeToTypeDeclaration(declaration, typeof(PreserveAttribute));
-
-            Debug.Log(declaration.ToFullString());
+            Debug.Log(script);
         }
 
         [Test]
-        public void Test()
+        public void AddUsings()
         {
-            SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
-            var unit = (CompilationUnitSyntax)SyntaxFactory.ParseSyntaxTree(m_script).GetRoot();
-            var rewriter = new Rewriter(generator);
+            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNames(m_sources);
 
-            unit = (CompilationUnitSyntax)rewriter.Visit(unit);
-
-            Debug.Log(unit.ToFullString());
+            string script = CodeAnalysisEditorUtility.AddUsings(m_script, usings);
+            
+            Debug.Log(script);
         }
 
-        public class Rewriter : CSharpSyntaxRewriter
+        [Test]
+        public void CollectUsingNames()
         {
-            public SyntaxGenerator Generator { get; }
+            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNames(m_sources);
 
-            public Rewriter(SyntaxGenerator generator)
-            {
-                Generator = generator;
-            }
-
-            public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
-            {
-                Type attributeType = typeof(PreserveAttribute);
-                string attributeName = !string.IsNullOrEmpty(attributeType.Namespace) ? $"{attributeType.Namespace}.{attributeType.Name}" : attributeType.Name;
-                SyntaxNode attribute = Generator.Attribute(attributeName);
-
-                attribute = attribute.WithTrailingTrivia(node.GetLeadingTrivia().Insert(0, SyntaxFactory.CarriageReturnLineFeed));
-
-                return Generator.AddAttributes(node, attribute);
-            }
+            Assert.AreEqual(3, usings.Count);
+            Assert.True(usings.Contains("System"));
+            Assert.True(usings.Contains("System.Collections"));
+            Assert.True(usings.Contains("UnityEngine"));
         }
     }
 }

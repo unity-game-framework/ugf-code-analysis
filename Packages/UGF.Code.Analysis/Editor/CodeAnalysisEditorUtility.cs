@@ -3,46 +3,67 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Editing;
 
 namespace UGF.Code.Analysis.Editor
 {
     public static class CodeAnalysisEditorUtility
     {
-        public static string AddLeadingTrivia(string text, List<string> trivia)
+        public static string AddLeadingTrivia(string source, IEnumerable<string> trivia)
         {
-            SyntaxNode root = SyntaxFactory.ParseSyntaxTree(text).GetRoot();
-            SyntaxTriviaList leadingTrivia = root.GetLeadingTrivia();
+            CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
 
-            for (int i = 0; i < trivia.Count; i++)
+            foreach (string text in trivia)
             {
-                string comment = trivia[i];
-
-                leadingTrivia = leadingTrivia.Add(SyntaxFactory.Comment(comment));
-                leadingTrivia = leadingTrivia.Add(SyntaxFactory.CarriageReturnLineFeed);
-
-                if (i == trivia.Count - 1)
-                {
-                    leadingTrivia = leadingTrivia.Add(SyntaxFactory.CarriageReturnLineFeed);
-                }
+                unit = unit.WithLeadingTrivia(unit.GetLeadingTrivia().Add(SyntaxFactory.Comment(text)));
             }
 
-            root = root.WithLeadingTrivia(leadingTrivia);
-
-            return root.ToFullString();
+            return unit.NormalizeWhitespace().ToFullString();
         }
 
-        public static TypeDeclarationSyntax AddAttributeToTypeDeclaration(TypeDeclarationSyntax typeDeclaration, Type attributeType)
+        public static string AddAttributeToClassDeclaration(string source, Type attributeType, bool firstFound = true)
         {
-            AttributeListSyntax attributes = SyntaxFactory.AttributeList();
+            SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
             string attributeName = !string.IsNullOrEmpty(attributeType.Namespace) ? $"{attributeType.Namespace}.{attributeType.Name}" : attributeType.Name;
-            AttributeSyntax attribute = SyntaxFactory.Attribute(SyntaxFactory.ParseName(attributeName));
+            var rewriter = new CodeAnalysisAddAttributeRewriter(generator, firstFound, attributeName);
 
-            attributes = attributes.AddAttributes(attribute);
-            attributes = attributes.WithTrailingTrivia(SyntaxFactory.CarriageReturnLineFeed);
+            return ApplyRewriter(source, rewriter);
+        }
 
-            typeDeclaration = typeDeclaration.AddAttributeLists(attributes);
+        public static string AddUsings(string source, IEnumerable<string> names)
+        {
+            CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
 
-            return typeDeclaration;
+            foreach (string name in names)
+            {
+                unit = unit.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(name)));
+            }
+            
+            return unit.NormalizeWhitespace().ToFullString();
+        }
+
+        public static HashSet<string> CollectUsingNames(IEnumerable<string> sources)
+        {
+            var names = new HashSet<string>();
+
+            foreach (string source in sources)
+            {
+                CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
+
+                foreach (UsingDirectiveSyntax directiveSyntax in unit.Usings)
+                {
+                    names.Add(directiveSyntax.Name.ToString());
+                }
+            }
+            
+            return names;
+        }
+
+        private static string ApplyRewriter(string source, CSharpSyntaxRewriter rewriter)
+        {
+            CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
+
+            return rewriter.Visit(unit).NormalizeWhitespace().ToFullString();
         }
     }
 }
