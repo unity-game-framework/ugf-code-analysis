@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
+using UnityEditor.Compilation;
 
 namespace UGF.Code.Analysis.Editor
 {
@@ -21,13 +22,30 @@ namespace UGF.Code.Analysis.Editor
             return unit.NormalizeWhitespace().ToFullString();
         }
 
+        public static bool CheckAttribute(string source, Type attributeType)
+        {
+            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
+            CSharpCompilation compilation = GetProjectCompilation();
+
+            compilation = compilation.AddSyntaxTrees(tree);
+
+            SemanticModel model = compilation.GetSemanticModel(tree);
+
+            var walker = new CodeAnalysisCheckAttributeWalker(model, attributeType);
+
+            walker.Visit(tree.GetRoot());
+
+            return walker.Result;
+        }
+
         public static string AddAttributeToClassDeclaration(string source, Type attributeType, bool firstFound = true)
         {
             SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
             string attributeName = !string.IsNullOrEmpty(attributeType.Namespace) ? $"{attributeType.Namespace}.{attributeType.Name}" : attributeType.Name;
             var rewriter = new CodeAnalysisAddAttributeRewriter(generator, firstFound, attributeName);
+            CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
 
-            return ApplyRewriter(source, rewriter);
+            return rewriter.Visit(unit).NormalizeWhitespace().ToFullString();
         }
 
         public static string AddUsings(string source, IEnumerable<string> names)
@@ -38,7 +56,7 @@ namespace UGF.Code.Analysis.Editor
             {
                 unit = unit.AddUsings(SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(name)));
             }
-            
+
             return unit.NormalizeWhitespace().ToFullString();
         }
 
@@ -55,15 +73,20 @@ namespace UGF.Code.Analysis.Editor
                     names.Add(directiveSyntax.Name.ToString());
                 }
             }
-            
+
             return names;
         }
 
-        private static string ApplyRewriter(string source, CSharpSyntaxRewriter rewriter)
+        public static CSharpCompilation GetProjectCompilation()
         {
-            CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
+            CSharpCompilation compilation = CSharpCompilation.Create("Project Compilation");
 
-            return rewriter.Visit(unit).NormalizeWhitespace().ToFullString();
+            foreach (string path in CompilationPipeline.GetPrecompiledAssemblyPaths(CompilationPipeline.PrecompiledAssemblySources.All))
+            {
+                compilation = compilation.AddReferences(MetadataReference.CreateFromFile(path));
+            }
+
+            return compilation;
         }
     }
 }

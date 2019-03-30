@@ -1,3 +1,5 @@
+using UnityEngine.Scripting;
+
 namespace UGF.Code.Analysis.Editor.Tests
 {
     
@@ -16,6 +18,7 @@ namespace UGF.Code.Analysis.Editor.Tests
     /// <summary>
     /// 
     /// </summary>
+    [Preserve]
     public class TestTarget1
     {
     }

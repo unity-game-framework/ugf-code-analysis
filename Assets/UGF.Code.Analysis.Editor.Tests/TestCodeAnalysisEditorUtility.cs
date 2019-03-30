@@ -47,6 +47,16 @@ namespace Test
         }
 
         [Test]
+        public void CheckAttribute()
+        {
+            string script = AssetDatabase.LoadAssetAtPath<MonoScript>(m_scriptPath).text;
+
+            bool result = CodeAnalysisEditorUtility.CheckAttribute(script, typeof(PreserveAttribute));
+            
+            Assert.True(result);
+        }
+        
+        [Test]
         public void AddAttributeToClassDeclaration()
         {
             string script = AssetDatabase.LoadAssetAtPath<MonoScript>(m_scriptPath).text;
