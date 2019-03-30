@@ -85,15 +85,17 @@ namespace UGF.Code.Analysis.Editor
             return walker.Result;
         }
 
-        public static string AddAttributeToClassDeclaration(string source, Type attributeType, bool firstFound = true)
+        public static string AddAttributeToClassDeclaration(CSharpCompilation compilation, string source, Type attributeType, bool firstFound = true)
         {
+            if (compilation == null) throw new ArgumentNullException(nameof(compilation));
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (attributeType == null) throw new ArgumentNullException(nameof(attributeType));
 
-            SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
-            string attributeName = !string.IsNullOrEmpty(attributeType.Namespace) ? $"{attributeType.Namespace}.{attributeType.Name}" : attributeType.Name;
-            var rewriter = new CodeAnalysisAddAttributeRewriter(generator, firstFound, attributeName);
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
+            INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
+            SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
+            
+            var rewriter = new CodeAnalysisAddAttributeRewriter(generator, firstFound, attributeTypeSymbol);
 
             return rewriter.Visit(tree.GetRoot()).NormalizeWhitespace().ToFullString();
         }

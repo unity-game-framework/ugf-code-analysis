@@ -9,21 +9,21 @@ namespace UGF.Code.Analysis.Editor
     {
         public SyntaxGenerator Generator { get; }
         public bool FirstFound { get; }
-        public string AttributeName { get; }
+        public INamedTypeSymbol AttributeTypeSymbol { get; }
         public bool Applied { get; private set; }
 
-        public CodeAnalysisAddAttributeRewriter(SyntaxGenerator generator, bool firstFound, string attributeName)
+        public CodeAnalysisAddAttributeRewriter(SyntaxGenerator generator, bool firstFound, INamedTypeSymbol attributeTypeSymbol)
         {
             Generator = generator;
             FirstFound = firstFound;
-            AttributeName = attributeName;
+            AttributeTypeSymbol = attributeTypeSymbol;
         }
 
         public override SyntaxNode VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             if (!Applied || !FirstFound)
             {
-                SyntaxNode attribute = Generator.Attribute(AttributeName);
+                SyntaxNode attribute = Generator.Attribute(Generator.TypeExpression(AttributeTypeSymbol));
 
                 Applied = true;
 

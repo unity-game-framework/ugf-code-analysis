@@ -85,7 +85,7 @@ namespace Test
         {
             string script = AssetDatabase.LoadAssetAtPath<MonoScript>(m_scriptPath).text;
 
-            script = CodeAnalysisEditorUtility.AddAttributeToClassDeclaration(script, typeof(PreserveAttribute), false);
+            script = CodeAnalysisEditorUtility.AddAttributeToClassDeclaration(CodeAnalysisEditorUtility.ProjectCompilation, script, typeof(PreserveAttribute), false);
 
             Debug.Log(script);
         }
