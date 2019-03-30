@@ -1,4 +1,3 @@
-using System;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -8,13 +7,13 @@ namespace UGF.Code.Analysis.Editor
     internal class CodeAnalysisCheckAttributeWalker : CSharpSyntaxWalker
     {
         public SemanticModel SemanticModel { get; }
-        public Type AttributeType { get; }
+        public INamedTypeSymbol AttributeTypeSymbol { get; }
         public bool Result { get; private set; }
 
-        public CodeAnalysisCheckAttributeWalker(SemanticModel semanticModel, Type attributeType)
+        public CodeAnalysisCheckAttributeWalker(SemanticModel semanticModel, INamedTypeSymbol attributeTypeSymbol)
         {
             SemanticModel = semanticModel;
-            AttributeType = attributeType;
+            AttributeTypeSymbol = attributeTypeSymbol;
         }
 
         public override void VisitAttribute(AttributeSyntax node)
@@ -22,9 +21,8 @@ namespace UGF.Code.Analysis.Editor
             base.VisitAttribute(node);
 
             ITypeSymbol nodeAttributeTypeSymbol = SemanticModel.GetTypeInfo(node).ConvertedType;
-            INamedTypeSymbol attributeTypeSymbol = SemanticModel.Compilation.GetTypeByMetadataName(AttributeType.FullName);
 
-            if (nodeAttributeTypeSymbol.Equals(attributeTypeSymbol))
+            if (nodeAttributeTypeSymbol.Equals(AttributeTypeSymbol))
             {
                 Result = true;
             }
