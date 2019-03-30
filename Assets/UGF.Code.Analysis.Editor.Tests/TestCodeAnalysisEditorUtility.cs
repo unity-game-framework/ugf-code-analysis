@@ -58,7 +58,7 @@ namespace Test
         [Test]
         public void CheckAttributeAllPaths()
         {
-            CodeAnalysisEditorUtility.CheckAttributeAllPaths(m_compilation, new List<string> { m_scriptPath }, typeof(PreserveAttribute), out List<string> results);
+            List<string> results = CodeAnalysisEditorUtility.CheckAttributeAllPaths(m_compilation, new List<string> { m_scriptPath }, typeof(PreserveAttribute));
             
             Assert.NotNull(results);
             Assert.AreEqual(1, results.Count);

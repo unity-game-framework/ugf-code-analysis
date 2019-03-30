@@ -30,13 +30,13 @@ namespace UGF.Code.Analysis.Editor
             return unit.NormalizeWhitespace().ToFullString();
         }
 
-        public static void CheckAttributeAllPaths(CSharpCompilation compilation, List<string> sourcePath, Type attributeType, out List<string> resultPaths)
+        public static List<string> CheckAttributeAllPaths(CSharpCompilation compilation, IEnumerable<string> sourcePaths, Type attributeType)
         {
             if (compilation == null) throw new ArgumentNullException(nameof(compilation));
-            if (sourcePath == null) throw new ArgumentNullException(nameof(sourcePath));
+            if (sourcePaths == null) throw new ArgumentNullException(nameof(sourcePaths));
             if (attributeType == null) throw new ArgumentNullException(nameof(attributeType));
 
-            resultPaths = new List<string>();
+            var resultPaths = new List<string>();
 
             INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
 
@@ -45,7 +45,7 @@ namespace UGF.Code.Analysis.Editor
                 throw new ArgumentException($"No metadata found for specified attribute type: '{attributeType}'.");
             }
 
-            foreach (string path in sourcePath)
+            foreach (string path in sourcePaths)
             {
                 string source = File.ReadAllText(path);
                 SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
@@ -63,6 +63,8 @@ namespace UGF.Code.Analysis.Editor
                 
                 compilation = compilation.RemoveSyntaxTrees(tree);
             }
+
+            return resultPaths;
         }
 
         public static bool CheckAttribute(CSharpCompilation compilation, string source, Type attributeType)
