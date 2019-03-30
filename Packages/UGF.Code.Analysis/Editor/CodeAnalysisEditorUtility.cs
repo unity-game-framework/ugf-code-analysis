@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using UnityEditor.Compilation;
 
 namespace UGF.Code.Analysis.Editor
 {
@@ -40,7 +40,7 @@ namespace UGF.Code.Analysis.Editor
 
             INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
 
-            if (attributeTypeSymbol.Kind == SymbolKind.ErrorType)
+            if (attributeTypeSymbol == null)
             {
                 throw new ArgumentException($"No metadata found for specified attribute type: '{attributeType}'.");
             }
@@ -53,14 +53,14 @@ namespace UGF.Code.Analysis.Editor
                 compilation = compilation.AddSyntaxTrees(tree);
 
                 var walker = new CodeAnalysisCheckAttributeWalker(compilation.GetSemanticModel(tree), attributeTypeSymbol);
-                
+
                 walker.Visit(tree.GetRoot());
 
                 if (walker.Result)
                 {
                     resultPaths.Add(path);
                 }
-                
+
                 compilation = compilation.RemoveSyntaxTrees(tree);
             }
 
@@ -136,9 +136,12 @@ namespace UGF.Code.Analysis.Editor
         {
             CSharpCompilation compilation = CSharpCompilation.Create("Project Compilation");
 
-            foreach (string path in CompilationPipeline.GetPrecompiledAssemblyPaths(CompilationPipeline.PrecompiledAssemblySources.All))
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                compilation = compilation.AddReferences(MetadataReference.CreateFromFile(path));
+                if (!assembly.IsDynamic)
+                {
+                    compilation = compilation.AddReferences(MetadataReference.CreateFromFile(assembly.Location));
+                }
             }
 
             return compilation;

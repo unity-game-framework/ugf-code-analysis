@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using NUnit.Framework;
 using UnityEditor;
@@ -39,13 +40,17 @@ namespace Test
         };
 
         private CSharpCompilation m_compilation;
-        
+
+        public class TestTargetAttribute : Attribute
+        {
+        }
+
         [SetUp]
         public void Setup()
         {
             m_compilation = CodeAnalysisEditorUtility.ProjectCompilation;
         }
-        
+
         [Test]
         public void AddLeadingTrivia()
         {
@@ -59,22 +64,22 @@ namespace Test
         public void CheckAttributeAllPaths()
         {
             List<string> results = CodeAnalysisEditorUtility.CheckAttributeAllPaths(m_compilation, new List<string> { m_scriptPath }, typeof(PreserveAttribute));
-            
+
             Assert.NotNull(results);
             Assert.AreEqual(1, results.Count);
             Assert.Contains(m_scriptPath, results);
         }
-        
+
         [Test]
         public void CheckAttribute()
         {
             string script = AssetDatabase.LoadAssetAtPath<MonoScript>(m_scriptPath).text;
 
             bool result = CodeAnalysisEditorUtility.CheckAttribute(m_compilation, script, typeof(PreserveAttribute));
-            
+
             Assert.True(result);
         }
-        
+
         [Test]
         public void AddAttributeToClassDeclaration()
         {
@@ -91,7 +96,7 @@ namespace Test
             HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNames(m_sources);
 
             string script = CodeAnalysisEditorUtility.AddUsings(m_script, usings);
-            
+
             Debug.Log(script);
         }
 
