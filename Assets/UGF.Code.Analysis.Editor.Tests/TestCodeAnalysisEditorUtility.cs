@@ -61,6 +61,15 @@ namespace Test
         }
 
         [Test]
+        public void CollectUsingNamesFromPaths()
+        {
+            HashSet<string> results = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new[] { m_scriptPath });
+            
+            Assert.NotNull(results);
+            Assert.AreEqual(4, results.Count);
+        }
+        
+        [Test]
         public void CheckAttributeAllPaths()
         {
             List<string> results = CodeAnalysisEditorUtility.CheckAttributeAllPaths(m_compilation, new List<string> { m_scriptPath }, typeof(PreserveAttribute));
@@ -93,7 +102,7 @@ namespace Test
         [Test]
         public void AddUsings()
         {
-            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNames(m_sources);
+            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new []{ m_scriptPath });
 
             string script = CodeAnalysisEditorUtility.AddUsings(m_script, usings);
 
@@ -103,9 +112,9 @@ namespace Test
         [Test]
         public void CollectUsingNames()
         {
-            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNames(m_sources);
+            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new []{ m_scriptPath });
 
-            Assert.AreEqual(3, usings.Count);
+            Assert.AreEqual(4, usings.Count);
             Assert.True(usings.Contains("System"));
             Assert.True(usings.Contains("System.Collections"));
             Assert.True(usings.Contains("UnityEngine"));

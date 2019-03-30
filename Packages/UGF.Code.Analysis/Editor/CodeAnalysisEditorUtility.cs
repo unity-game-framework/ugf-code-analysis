@@ -52,7 +52,7 @@ namespace UGF.Code.Analysis.Editor
 
                 compilation = compilation.AddSyntaxTrees(tree);
 
-                var walker = new CodeAnalysisCheckAttributeWalker(compilation.GetSemanticModel(tree), attributeTypeSymbol);
+                var walker = new CodeAnalysisWalkerCheckAttribute(compilation.GetSemanticModel(tree), attributeTypeSymbol);
 
                 walker.Visit(tree.GetRoot());
 
@@ -78,7 +78,7 @@ namespace UGF.Code.Analysis.Editor
 
             compilation = compilation.AddSyntaxTrees(tree);
 
-            var walker = new CodeAnalysisCheckAttributeWalker(compilation.GetSemanticModel(tree), attributeTypeSymbol);
+            var walker = new CodeAnalysisWalkerCheckAttribute(compilation.GetSemanticModel(tree), attributeTypeSymbol);
 
             walker.Visit(tree.GetRoot());
 
@@ -95,7 +95,7 @@ namespace UGF.Code.Analysis.Editor
             INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
             SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
             
-            var rewriter = new CodeAnalysisAddAttributeRewriter(generator, firstFound, attributeTypeSymbol);
+            var rewriter = new CodeAnalysisRewriterAddAttribute(generator, firstFound, attributeTypeSymbol);
 
             return rewriter.Visit(tree.GetRoot()).NormalizeWhitespace().ToFullString();
         }
@@ -115,25 +115,23 @@ namespace UGF.Code.Analysis.Editor
             return unit.NormalizeWhitespace().ToFullString();
         }
 
-        public static HashSet<string> CollectUsingNames(IEnumerable<string> sources)
+        public static HashSet<string> CollectUsingNamesFromPaths(IEnumerable<string> sourcePaths)
         {
-            if (sources == null) throw new ArgumentNullException(nameof(sources));
+            if (sourcePaths == null) throw new ArgumentNullException(nameof(sourcePaths));
+            
+            var walker = new CodeAnalysisWalkerCollectUsingNames();
 
-            var names = new HashSet<string>();
-
-            foreach (string source in sources)
+            foreach (string path in sourcePaths)
             {
-                CompilationUnitSyntax unit = SyntaxFactory.ParseCompilationUnit(source);
-
-                foreach (UsingDirectiveSyntax directiveSyntax in unit.Usings)
-                {
-                    names.Add(directiveSyntax.Name.ToString());
-                }
+                string source = File.ReadAllText(path);
+                SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
+                
+                walker.Visit(tree.GetRoot());
             }
-
-            return names;
+            
+            return walker.Result;
         }
-
+        
         public static CSharpCompilation GetProjectCompilation()
         {
             CSharpCompilation compilation = CSharpCompilation.Create("Project Compilation");

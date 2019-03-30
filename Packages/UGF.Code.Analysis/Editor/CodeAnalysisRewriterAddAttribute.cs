@@ -5,14 +5,14 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace UGF.Code.Analysis.Editor
 {
-    internal class CodeAnalysisAddAttributeRewriter : CSharpSyntaxRewriter
+    internal class CodeAnalysisRewriterAddAttribute : CSharpSyntaxRewriter
     {
         public SyntaxGenerator Generator { get; }
         public bool FirstFound { get; }
         public INamedTypeSymbol AttributeTypeSymbol { get; }
         public bool Applied { get; private set; }
 
-        public CodeAnalysisAddAttributeRewriter(SyntaxGenerator generator, bool firstFound, INamedTypeSymbol attributeTypeSymbol)
+        public CodeAnalysisRewriterAddAttribute(SyntaxGenerator generator, bool firstFound, INamedTypeSymbol attributeTypeSymbol)
         {
             Generator = generator;
             FirstFound = firstFound;

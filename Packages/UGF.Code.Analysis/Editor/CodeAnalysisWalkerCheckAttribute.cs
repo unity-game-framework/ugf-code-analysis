@@ -4,13 +4,13 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace UGF.Code.Analysis.Editor
 {
-    internal class CodeAnalysisCheckAttributeWalker : CSharpSyntaxWalker
+    internal class CodeAnalysisWalkerCheckAttribute : CSharpSyntaxWalker
     {
         public SemanticModel SemanticModel { get; }
         public INamedTypeSymbol AttributeTypeSymbol { get; }
         public bool Result { get; private set; }
 
-        public CodeAnalysisCheckAttributeWalker(SemanticModel semanticModel, INamedTypeSymbol attributeTypeSymbol)
+        public CodeAnalysisWalkerCheckAttribute(SemanticModel semanticModel, INamedTypeSymbol attributeTypeSymbol)
         {
             SemanticModel = semanticModel;
             AttributeTypeSymbol = attributeTypeSymbol;
