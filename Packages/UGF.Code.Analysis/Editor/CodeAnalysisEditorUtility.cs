@@ -94,7 +94,7 @@ namespace UGF.Code.Analysis.Editor
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
             INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
             SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
-            
+
             var rewriter = new CodeAnalysisRewriterAddAttribute(generator, firstFound, attributeTypeSymbol);
 
             return rewriter.Visit(tree.GetRoot()).NormalizeWhitespace().ToFullString();
@@ -118,20 +118,20 @@ namespace UGF.Code.Analysis.Editor
         public static HashSet<string> CollectUsingNamesFromPaths(IEnumerable<string> sourcePaths)
         {
             if (sourcePaths == null) throw new ArgumentNullException(nameof(sourcePaths));
-            
+
             var walker = new CodeAnalysisWalkerCollectUsingNames();
 
             foreach (string path in sourcePaths)
             {
                 string source = File.ReadAllText(path);
                 SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
-                
+
                 walker.Visit(tree.GetRoot());
             }
-            
+
             return walker.Result;
         }
-        
+
         public static CSharpCompilation GetProjectCompilation()
         {
             CSharpCompilation compilation = CSharpCompilation.Create("Project Compilation");

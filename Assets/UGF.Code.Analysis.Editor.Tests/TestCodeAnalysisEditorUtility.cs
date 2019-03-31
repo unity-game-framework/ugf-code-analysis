@@ -16,7 +16,7 @@ namespace Test
 {
     public class Target
     {
-    }   
+    }
 }";
 
         private readonly string m_scriptWithComments = @"// Comment0
