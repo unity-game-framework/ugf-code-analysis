@@ -30,43 +30,6 @@ namespace UGF.Code.Analysis.Editor
             return unit.NormalizeWhitespace().ToFullString();
         }
 
-        public static List<string> CheckAttributeAllPaths(CSharpCompilation compilation, IEnumerable<string> sourcePaths, Type attributeType)
-        {
-            if (compilation == null) throw new ArgumentNullException(nameof(compilation));
-            if (sourcePaths == null) throw new ArgumentNullException(nameof(sourcePaths));
-            if (attributeType == null) throw new ArgumentNullException(nameof(attributeType));
-
-            var resultPaths = new List<string>();
-
-            INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
-
-            if (attributeTypeSymbol == null)
-            {
-                throw new ArgumentException($"No metadata found for specified attribute type: '{attributeType}'.");
-            }
-
-            foreach (string path in sourcePaths)
-            {
-                string source = File.ReadAllText(path);
-                SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
-
-                compilation = compilation.AddSyntaxTrees(tree);
-
-                var walker = new CodeAnalysisWalkerCheckAttribute(compilation.GetSemanticModel(tree), attributeTypeSymbol);
-
-                walker.Visit(tree.GetRoot());
-
-                if (walker.Result)
-                {
-                    resultPaths.Add(path);
-                }
-
-                compilation = compilation.RemoveSyntaxTrees(tree);
-            }
-
-            return resultPaths;
-        }
-
         public static bool CheckAttribute(CSharpCompilation compilation, string source, Type attributeType)
         {
             if (compilation == null) throw new ArgumentNullException(nameof(compilation));
@@ -74,11 +37,10 @@ namespace UGF.Code.Analysis.Editor
             if (attributeType == null) throw new ArgumentNullException(nameof(attributeType));
 
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
+            SemanticModel model = compilation.AddSyntaxTrees(tree).GetSemanticModel(tree);
             INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
 
-            compilation = compilation.AddSyntaxTrees(tree);
-
-            var walker = new CodeAnalysisWalkerCheckAttribute(compilation.GetSemanticModel(tree), attributeTypeSymbol);
+            var walker = new CodeAnalysisWalkerCheckAttribute(model, attributeTypeSymbol);
 
             walker.Visit(tree.GetRoot());
 
@@ -91,9 +53,9 @@ namespace UGF.Code.Analysis.Editor
             if (source == null) throw new ArgumentNullException(nameof(source));
             if (attributeType == null) throw new ArgumentNullException(nameof(attributeType));
 
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
-            INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
+            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);;
             SyntaxGenerator generator = SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
+            INamedTypeSymbol attributeTypeSymbol = compilation.GetTypeByMetadataName(attributeType.FullName);
 
             var rewriter = new CodeAnalysisRewriterAddAttribute(generator, firstFound, attributeTypeSymbol);
 

@@ -64,19 +64,9 @@ namespace Test
         public void CollectUsingNamesFromPaths()
         {
             HashSet<string> results = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new[] { m_scriptPath });
-            
-            Assert.NotNull(results);
-            Assert.AreEqual(4, results.Count);
-        }
-        
-        [Test]
-        public void CheckAttributeAllPaths()
-        {
-            List<string> results = CodeAnalysisEditorUtility.CheckAttributeAllPaths(m_compilation, new List<string> { m_scriptPath }, typeof(PreserveAttribute));
 
             Assert.NotNull(results);
-            Assert.AreEqual(1, results.Count);
-            Assert.Contains(m_scriptPath, results);
+            Assert.AreEqual(4, results.Count);
         }
 
         [Test]
@@ -102,7 +92,7 @@ namespace Test
         [Test]
         public void AddUsings()
         {
-            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new []{ m_scriptPath });
+            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new[] { m_scriptPath });
 
             string script = CodeAnalysisEditorUtility.AddUsings(m_script, usings);
 
@@ -112,7 +102,7 @@ namespace Test
         [Test]
         public void CollectUsingNames()
         {
-            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new []{ m_scriptPath });
+            HashSet<string> usings = CodeAnalysisEditorUtility.CollectUsingNamesFromPaths(new[] { m_scriptPath });
 
             Assert.AreEqual(4, usings.Count);
             Assert.True(usings.Contains("System"));
