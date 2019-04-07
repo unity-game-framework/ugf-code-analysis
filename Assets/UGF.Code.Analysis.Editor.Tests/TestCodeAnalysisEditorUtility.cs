@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Editing;
@@ -41,15 +42,22 @@ namespace UGF.Code.Analysis.Editor.Tests
         }
 
         [Test]
-        public void PrintSyntaxTree()
+        public void PrintSyntaxNodeOrToken()
         {
             string source = File.ReadAllText("Assets/UGF.Code.Analysis.Editor.Tests/TestTarget.txt");
             string sourceTree = File.ReadAllText("Assets/UGF.Code.Analysis.Editor.Tests/TestTargetSyntaxTree.txt");
 
-            SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
-            string result = CodeAnalysisEditorUtility.PrintSyntaxTree(tree);
+            SyntaxNode node = SyntaxFactory.ParseSyntaxTree(source).GetRoot();
+            var builder = new StringBuilder();
 
-            Assert.AreEqual(sourceTree, result);
+            CodeAnalysisEditorUtility.PrintSyntaxNodeOrToken(builder, node);
+
+            string result0 = builder.ToString();
+            string result1 = CodeAnalysisEditorUtility.PrintSyntaxNodeOrToken(node);
+
+            Assert.AreEqual(result0, sourceTree);
+            Assert.AreEqual(result1, sourceTree);
+            Assert.AreEqual(result0, result1);
         }
     }
 }

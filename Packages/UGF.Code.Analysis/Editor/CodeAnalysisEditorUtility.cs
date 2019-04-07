@@ -36,40 +36,40 @@ namespace UGF.Code.Analysis.Editor
             return SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
         }
 
-        public static string PrintSyntaxTree(SyntaxTree tree)
+        public static string PrintSyntaxNodeOrToken(SyntaxNodeOrToken nodeOrToken, int depth = 0, string indent = "    ")
         {
-            if (tree == null) throw new ArgumentNullException(nameof(tree));
-
             var builder = new StringBuilder();
 
-            PrintSyntaxNode(builder, tree.GetRoot(), 0, "    ");
+            PrintSyntaxNodeOrToken(builder, nodeOrToken, depth, indent);
 
             return builder.ToString();
         }
 
-        private static void PrintSyntaxNode(StringBuilder builder, SyntaxNodeOrToken node, int depth, string tab)
+        public static void PrintSyntaxNodeOrToken(StringBuilder builder, SyntaxNodeOrToken nodeOrToken, int depth = 0, string indent = "    ")
         {
-            builder.Append(string.Concat(Enumerable.Repeat(tab, depth)));
-            builder.Append($"{node.Kind()} {node.Span}");
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+
+            builder.Append(string.Concat(Enumerable.Repeat(indent, depth)));
+            builder.Append($"{nodeOrToken.Kind()} {nodeOrToken.Span}");
             builder.AppendLine();
 
-            foreach (SyntaxTrivia trivia in node.GetLeadingTrivia())
+            foreach (SyntaxTrivia trivia in nodeOrToken.GetLeadingTrivia())
             {
-                builder.Append(string.Concat(Enumerable.Repeat(tab, depth + 1)));
+                builder.Append(string.Concat(Enumerable.Repeat(indent, depth + 1)));
                 builder.Append($"Lead: {trivia.Kind()} {trivia.Span}");
                 builder.AppendLine();
             }
 
-            foreach (SyntaxTrivia trivia in node.GetTrailingTrivia())
+            foreach (SyntaxTrivia trivia in nodeOrToken.GetTrailingTrivia())
             {
-                builder.Append(string.Concat(Enumerable.Repeat(tab, depth + 1)));
+                builder.Append(string.Concat(Enumerable.Repeat(indent, depth + 1)));
                 builder.Append($"Trail: {trivia.Kind()} {trivia.Span}");
                 builder.AppendLine();
             }
 
-            foreach (SyntaxNodeOrToken nodeOrToken in node.ChildNodesAndTokens())
+            foreach (SyntaxNodeOrToken childNodeOrToken in nodeOrToken.ChildNodesAndTokens())
             {
-                PrintSyntaxNode(builder, nodeOrToken, depth + 1, tab);
+                PrintSyntaxNodeOrToken(builder, childNodeOrToken, depth + 1, indent);
             }
         }
     }
