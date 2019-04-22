@@ -8,14 +8,28 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace UGF.Code.Analysis.Editor
 {
+    /// <summary>
+    /// Provides utilities to work with code analysis in editor.
+    /// </summary>
     public static class CodeAnalysisEditorUtility
     {
+        /// <summary>
+        /// Gets the project compilation with all available references.
+        /// </summary>
         public static CSharpCompilation ProjectCompilation { get { return m_projectCompilation ?? (m_projectCompilation = GetProjectCompilation()); } }
+
+        /// <summary>
+        /// Gets the default syntax generator.
+        /// </summary>
         public static SyntaxGenerator Generator { get { return m_generator ?? (m_generator = GetSyntaxGenerator()); } }
 
         private static CSharpCompilation m_projectCompilation;
         private static SyntaxGenerator m_generator;
 
+        /// <summary>
+        /// Gets new compilation with project references.
+        /// </summary>
+        /// <returns></returns>
         public static CSharpCompilation GetProjectCompilation()
         {
             CSharpCompilation compilation = CSharpCompilation.Create("Project Compilation");
@@ -31,11 +45,21 @@ namespace UGF.Code.Analysis.Editor
             return compilation;
         }
 
+        /// <summary>
+        /// Gets new default syntax generator.
+        /// </summary>
+        /// <returns></returns>
         public static SyntaxGenerator GetSyntaxGenerator()
         {
             return SyntaxGenerator.GetGenerator(new AdhocWorkspace(), LanguageNames.CSharp);
         }
 
+        /// <summary>
+        /// Prints full hierarchy of the specified syntax node or token as string representation.
+        /// </summary>
+        /// <param name="nodeOrToken">The syntax node or token to print.</param>
+        /// <param name="depth">The initial indent depth.</param>
+        /// <param name="indent">The indent value used for nested nodes.</param>
         public static string PrintSyntaxNodeOrToken(SyntaxNodeOrToken nodeOrToken, int depth = 0, string indent = "    ")
         {
             var builder = new StringBuilder();
@@ -45,6 +69,13 @@ namespace UGF.Code.Analysis.Editor
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Prints full hierarchy of the specified syntax node or token as string representation.
+        /// </summary>
+        /// <param name="builder">The builder used to create a string representation.</param>
+        /// <param name="nodeOrToken">The syntax node or token to print.</param>
+        /// <param name="depth">The initial indent depth.</param>
+        /// <param name="indent">The indent value used for nested nodes.</param>
         public static void PrintSyntaxNodeOrToken(StringBuilder builder, SyntaxNodeOrToken nodeOrToken, int depth = 0, string indent = "    ")
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
