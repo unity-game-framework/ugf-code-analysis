@@ -93,14 +93,29 @@
               Looks up a localized string similar to Cannot retrieve the Span of a null syntax reference..
             </summary>
         </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Code_block_preferences">
+            <summary>
+              Looks up a localized string similar to Code-block preferences.
+            </summary>
+        </member>
         <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Expected_string_or_char_literal">
             <summary>
               Looks up a localized string similar to Expected string or char literal.
             </summary>
         </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Expression_bodied_members">
+            <summary>
+              Looks up a localized string similar to Expression-bodied members.
+            </summary>
+        </member>
         <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Implement_Interface">
             <summary>
               Looks up a localized string similar to Implement Interface.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Indentation_preferences">
+            <summary>
+              Looks up a localized string similar to Indentation preferences.
             </summary>
         </member>
         <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Namespace_can_not_be_added_in_this_destination">
@@ -123,14 +138,39 @@
               Looks up a localized string similar to Node not in parent&apos;s child list.
             </summary>
         </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Null_checking_preferences">
+            <summary>
+              Looks up a localized string similar to Null-checking preferences.
+            </summary>
+        </member>
         <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Only_attributes_constructor_initializers_expressions_or_statements_can_be_made_explicit">
             <summary>
               Looks up a localized string similar to Only attributes, constructor initializers, expressions or statements can be made explicit.
             </summary>
         </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Pattern_matching_preferences">
+            <summary>
+              Looks up a localized string similar to Pattern matching preferences.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Space_preferences">
+            <summary>
+              Looks up a localized string similar to Space preferences.
+            </summary>
+        </member>
         <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Trivia_is_not_associated_with_token">
             <summary>
               Looks up a localized string similar to Trivia is not associated with token.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.var_preferences">
+            <summary>
+              Looks up a localized string similar to var preferences.
+            </summary>
+        </member>
+        <member name="P:Microsoft.CodeAnalysis.CSharp.CSharpWorkspaceResources.Wrapping_preferences">
+            <summary>
+              Looks up a localized string similar to Wrapping preferences.
             </summary>
         </member>
         <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.ArgumentSyntaxExtensions.DetermineParameter(Microsoft.CodeAnalysis.CSharp.Syntax.ArgumentSyntax,Microsoft.CodeAnalysis.SemanticModel,System.Boolean,System.Threading.CancellationToken)">
@@ -163,6 +203,11 @@
         <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.BasePropertyDeclarationSyntaxExtensions.TryWithExpressionBody(Microsoft.CodeAnalysis.CSharp.Syntax.BasePropertyDeclarationSyntax,Microsoft.CodeAnalysis.CSharp.Syntax.ArrowExpressionClauseSyntax)">
             <summary>
             Available if <paramref name="node"/> is <see cref="T:Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax"/> or <see cref="T:Microsoft.CodeAnalysis.CSharp.Syntax.IndexerDeclarationSyntax"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.ContextQuery.CSharpSyntaxContext.IsAwaitStatementContext(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Is this a possible position for an await statement (`await using` or `await foreach`)?
             </summary>
         </member>
         <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.ContextQuery.SyntaxTreeExtensions.IsPossibleTupleContext(Microsoft.CodeAnalysis.SyntaxTree,Microsoft.CodeAnalysis.SyntaxToken,System.Int32)">
@@ -289,12 +334,6 @@
             top down order.  
             </summary>
         </member>
-        <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxNodeExtensions.GetAllPrecedingTriviaToPreviousToken(Microsoft.CodeAnalysis.SyntaxToken,Microsoft.CodeAnalysis.Text.SourceText,System.Boolean)">
-            <summary>
-            Returns all of the trivia to the left of this token up to the previous token (concatenates
-            the previous token's trailing trivia and this token's leading trivia).
-            </summary>
-        </member>
         <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxNodeExtensions.ContainsInterleavedDirective(Microsoft.CodeAnalysis.SyntaxNode,System.Threading.CancellationToken)">
             <summary>
             Returns true if the passed in node contains an interleaved pp directive.
@@ -334,6 +373,12 @@
             entirely contained within the span of the node.
             </summary>
         </member>
+        <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxNodeExtensions.ContainsInterleavedDirective(Microsoft.CodeAnalysis.SyntaxNode,Microsoft.CodeAnalysis.Text.TextSpan,System.Threading.CancellationToken)">
+            <summary>
+            Similar to <see cref="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxNodeExtensions.ContainsInterleavedDirective(Microsoft.CodeAnalysis.SyntaxNode,System.Threading.CancellationToken)"/> except that the span to check
+            for interleaved directives can be specified separately to the node passed in.
+            </summary>
+        </member>
         <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxNodeExtensions.SplitNodesOnPreprocessorBoundaries``1(System.Collections.Generic.IEnumerable{``0},System.Threading.CancellationToken)">
             <summary>
             Breaks up the list of provided nodes, based on how they are interspersed with pp
@@ -348,6 +393,12 @@
             <remarks>
             This is a copy of <see cref="M:Microsoft.CodeAnalysis.SyntaxNode.ChildThatContainsPosition(System.Int32)"/> that also returns the index of the child node.
             </remarks>
+        </member>
+        <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxNodeExtensions.GetAllPrecedingTriviaToPreviousToken(Microsoft.CodeAnalysis.SyntaxToken,Microsoft.CodeAnalysis.Text.SourceText,System.Boolean)">
+            <summary>
+            Returns all of the trivia to the left of this token up to the previous token (concatenates
+            the previous token's trailing trivia and this token's leading trivia).
+            </summary>
         </member>
         <member name="M:Microsoft.CodeAnalysis.CSharp.Extensions.SyntaxTokenExtensions.IsFirstTokenOnLine(Microsoft.CodeAnalysis.SyntaxToken,Microsoft.CodeAnalysis.Text.SourceText)">
             <summary>
@@ -437,6 +488,27 @@
             <summary>
             Checks whether currentToken is the opening paren of a deconstruction-declaration in var form, such as <c>var (x, y) = ...</c>
             </summary>
+        </member>
+        <member name="M:Microsoft.CodeAnalysis.CSharp.Formatting.FormattingHelpers.IsCommaInTupleExpression(Microsoft.CodeAnalysis.SyntaxToken)">
+            <summary>
+            Check whether the currentToken is a comma and is a delimiter between arguments inside a tuple expression.
+            </summary>
+        </member>
+        <member name="T:Microsoft.CodeAnalysis.CSharp.Formatting.SyntaxKindEx">
+            <summary>
+            This class allows the Code Style layer to light up support for new language features when available at runtime
+            while compiling against an older version of the Roslyn assemblies.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CodeAnalysis.CSharp.Formatting.SyntaxKindEx.DotDotTokenValueAssertion">
+            <summary>
+            This will only compile if <see cref="F:Microsoft.CodeAnalysis.CSharp.Formatting.SyntaxKindEx.DotDotToken"/> and <see cref="F:Microsoft.CodeAnalysis.CSharp.SyntaxKind.DotDotToken"/> have the same
+            value.
+            </summary>
+            <remarks>
+            <para>The subtraction will overflow if <see cref="F:Microsoft.CodeAnalysis.CSharp.SyntaxKind.DotDotToken"/> is greater, and the conversion
+            to an unsigned value after negation will overflow if <see cref="F:Microsoft.CodeAnalysis.CSharp.Formatting.SyntaxKindEx.DotDotToken"/> is greater.</para>
+            </remarks>
         </member>
         <member name="T:Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTreeFactoryServiceFactory.CSharpSyntaxTreeFactoryService.PathSyntaxReference">
             <summary>
@@ -590,6 +662,55 @@
             For each of these parameters, we find the descendant identifier name nodes in the lambda body and check if semantics of any of the parenting nodes of these
             identifier nodes have changed in the replaced lambda.
             </summary>
+        </member>
+        <member name="T:Microsoft.CodeAnalysis.CodeStyle.PreferBracesPreference">
+            <summary>
+            Defines the known values for <see cref="F:Microsoft.CodeAnalysis.CSharp.CodeStyle.CSharpCodeStyleOptions.PreferBraces"/>.
+            </summary>
+        </member>
+        <member name="F:Microsoft.CodeAnalysis.CodeStyle.PreferBracesPreference.None">
+            <summary>
+            Braces are allowed, but not preferred.
+            </summary>
+            <remarks>
+            <para>The value <c>0</c> is important for serialization compatibility in
+            <see cref="M:Microsoft.CodeAnalysis.CodeStyle.CodeStyleOption`1.FromXElement(System.Xml.Linq.XElement)"/>. Prior to the use of this enum, the serialized value
+            was the <see cref="T:System.Boolean"/> value <see langword="false"/>.</para>
+            </remarks>
+        </member>
+        <member name="F:Microsoft.CodeAnalysis.CodeStyle.PreferBracesPreference.Always">
+             <summary>
+             <para>Braces are preferred where allowed except in the following limited situations:</para>
+            
+             <list type="bullet">
+             <item><description>Braces are not required for the embedded statement of an <c>else</c> clause when the embedded statement is an <c>if</c> statement.</description></item>
+             <item><description>In a sequence of consecutive <c>using</c> statements, only the last statement requires braces.</description></item>
+             <item><description>In a sequence of consecutive <c>lock</c> statements, only the last statement requires braces.</description></item>
+             <item><description>In a sequence of consecutive <c>fixed</c> statements, only the last statement requires braces.</description></item>
+             </list>
+             </summary>
+             <remarks>
+             <para>The value <c>1</c> is important for serialization compatibility in
+             <see cref="M:Microsoft.CodeAnalysis.CodeStyle.CodeStyleOption`1.FromXElement(System.Xml.Linq.XElement)"/>. Prior to the use of this enum, the serialized value
+             was the <see cref="T:System.Boolean"/> value <see langword="true"/>.</para>
+             </remarks>
+        </member>
+        <member name="F:Microsoft.CodeAnalysis.CodeStyle.PreferBracesPreference.WhenMultiline">
+             <summary>
+             <para>Braces are always allowed, and generally preferred except in limited situations involving single-line
+             statements and expressions:</para>
+            
+             <list type="bullet">
+             <item><description>Braces may be omitted in the cases described for <see cref="F:Microsoft.CodeAnalysis.CodeStyle.PreferBracesPreference.Always"/>.</description></item>
+             <item><description>Braces may be omitted when the entire statement is placed on one line.</description></item>
+             <item><description>For a statement that contains one or more embedded statements, braces may be omitted when
+             every embedded statement fits on one line, and the part preceding the embedded statement is placed on one
+             line. If any embedded statement uses braces, braces are preferred for all embedded statments of the same
+             parent statement. For the purposes of evaluating this rule, if the embedded statement following an
+             <c>else</c> keyword is an if statement, the embedded statements of the nested if statement are treated as
+             children of the parent statement of the <c>else</c> keyword.</description></item>
+             </list>
+             </summary>
         </member>
     </members>
 </doc>
