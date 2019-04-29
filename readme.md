@@ -4,7 +4,7 @@ UGF.Code.Analysis
 
 ## Info
 
-- **Version**: `1.0.0-preview.1`
+- **Version**: `1.0.0`
 - **Unity Version**: `2019.1.0`
 - **Scripting Runtime Version**: `.NET 4.x Equivalent`
 - **Api Compatibility Level**: `.NET Standard 2.0`
@@ -19,7 +19,7 @@ UGF.Code.Analysis
 
 ### Registries
 
-- [Stable][2] (N/A)
+- [Stable][2]
 - [Develop][3]
 
 ## Description
