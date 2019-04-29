@@ -11,7 +11,7 @@ UGF.Code.Analysis
 
 ### Dependencies
 
-- N/A
+- [UGF.Code.Extensions](https://github.com/unity-game-framework/ugf-code-extensions): `1.0.0`
 
 ### Changelog
 
