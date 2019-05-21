@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Milestone](https://github.com/unity-game-framework/ugf-code-analysis/milestone/0?closed=1)
 
 ### Added
-- Nothing.
+- Package dependencies:
+    - `com.unity.code-analysis`: `0.0.1-preview.3`
 
 ### Changed
-- Nothing.
+- Replace inner plugins with `com.unity.code-analysis` package.
 
 ### Deprecated
 - Nothing.
