@@ -4,14 +4,14 @@ UGF.Code.Analysis
 
 ## Info
 
-- **Version**: `1.0.0`
+- **Version**: `2.0.0`
 - **Unity Version**: `2019.1.0`
 - **Scripting Runtime Version**: `.NET 4.x Equivalent`
 - **Api Compatibility Level**: `.NET Standard 2.0`
 
 ### Dependencies
 
-- [UGF.Code.Extensions](https://github.com/unity-game-framework/ugf-code-extensions): `1.0.0`
+- [com.unity.code-analysis](https://bintray.com/unity/unity/com.unity.code-analysis): `0.0.1-preview.3`
 
 ### Changelog
 
