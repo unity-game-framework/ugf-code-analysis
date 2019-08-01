@@ -38,7 +38,12 @@ namespace UGF.Code.Analysis.Editor
             {
                 if (!assembly.IsDynamic)
                 {
-                    compilation = compilation.AddReferences(MetadataReference.CreateFromFile(assembly.Location));
+                    string location = assembly.Location;
+
+                    if (!string.IsNullOrEmpty(location))
+                    {
+                        compilation = compilation.AddReferences(MetadataReference.CreateFromFile(location));
+                    }
                 }
             }
 
