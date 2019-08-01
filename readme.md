@@ -5,13 +5,12 @@ UGF.Code.Analysis
 ## Info
 
 - **Version**: `2.0.0`
-- **Unity Version**: `2019.1.0`
-- **Scripting Runtime Version**: `.NET 4.x Equivalent`
+- **Unity Version**: `2019.2.0`
 - **Api Compatibility Level**: `.NET Standard 2.0`
 
 ### Dependencies
 
-- [com.unity.code-analysis](https://bintray.com/unity/unity/com.unity.code-analysis): `0.0.1-preview.3`
+- [com.unity.code-analysis](https://bintray.com/unity/unity/com.unity.code-analysis): `0.1.0-preview.2`
 
 ### Changelog
 
@@ -24,7 +23,7 @@ UGF.Code.Analysis
 
 ## Description
 
-No description.
+Provides access to Microsoft Roslyn Code Analysis libraries and additional extensions.
 
 ## How to Install
 
