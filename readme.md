@@ -4,7 +4,7 @@ UGF.Code.Analysis
 
 ## Info
 
-- **Version**: `2.0.0`
+- **Version**: `3.0.0`
 - **Unity Version**: `2019.2.0`
 - **Api Compatibility Level**: `.NET Standard 2.0`
 
