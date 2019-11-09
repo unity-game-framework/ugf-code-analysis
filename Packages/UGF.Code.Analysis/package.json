@@ -2,7 +2,7 @@
     "name": "com.ugf.code.analysis",
     "displayName": "UGF.Code.Analysis",
     "version": "3.1.0",
-    "unity": "2019.2",
+    "unity": "2019.3",
     "description": "Provides access to Microsoft Roslyn Code Analysis libraries and additional extensions.",
     "author": {
         "name": "Unity Game Framework",
