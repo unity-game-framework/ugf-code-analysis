@@ -11,11 +11,12 @@ namespace UGF.Code.Analysis.Editor
         /// <param name="tree">The syntax tree to print.</param>
         /// <param name="depth">The initial indent depth.</param>
         /// <param name="indent">The indent value used for nested nodes.</param>
-        public static string PrintTree(this SyntaxTree tree, int depth = 0, int indent = 4)
+        [Obsolete("PrintSyntaxNodeOrToken has been deprecated. Use PrintTree instead.")]
+        public static string Print(this SyntaxTree tree, int depth = 0, string indent = "    ")
         {
             if (tree == null) throw new ArgumentNullException(nameof(tree));
 
-            return CodeAnalysisEditorFormatUtility.PrintSyntaxNodeOrToken(tree.GetRoot(), depth, indent);
+            return CodeAnalysisEditorUtility.PrintSyntaxNodeOrToken(tree.GetRoot(), depth, indent);
         }
     }
 }

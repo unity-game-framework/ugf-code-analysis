@@ -50,10 +50,10 @@ namespace UGF.Code.Analysis.Editor.Tests
             SyntaxNode node = SyntaxFactory.ParseSyntaxTree(source).GetRoot();
             var builder = new StringBuilder();
 
-            CodeAnalysisEditorUtility.PrintSyntaxNodeOrToken(builder, node);
+            CodeAnalysisEditorFormatUtility.PrintSyntaxNodeOrToken(builder, node);
 
             string result0 = builder.ToString();
-            string result1 = CodeAnalysisEditorUtility.PrintSyntaxNodeOrToken(node);
+            string result1 = CodeAnalysisEditorFormatUtility.PrintSyntaxNodeOrToken(node);
 
             Assert.AreEqual(result0, sourceTree);
             Assert.AreEqual(result1, sourceTree);
