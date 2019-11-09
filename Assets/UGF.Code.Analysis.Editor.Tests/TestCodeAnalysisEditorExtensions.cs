@@ -15,7 +15,7 @@ namespace UGF.Code.Analysis.Editor.Tests
 
             SyntaxTree tree = SyntaxFactory.ParseSyntaxTree(source);
 
-            string result0 = tree.Print();
+            string result0 = tree.PrintTree();
 
             Assert.AreEqual(result0, sourceTree);
         }

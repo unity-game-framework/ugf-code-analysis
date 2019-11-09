@@ -26,6 +26,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Nothing.
 
+## 3.1.0 - 2019-11-09
+- [Commits](https://github.com/unity-game-framework/ugf-code-analysis/compare/3.0.0...3.1.0)
+- [Milestone](https://github.com/unity-game-framework/ugf-code-analysis/milestone/4?closed=1)
+
+### Added
+- `CodeAnalysisEditorFormatUtility.PrintSyntaxNodeOrToken` methods with indent count.
+
+### Changed
+- Update to Unity 2019.3
+
+### Deprecated
+- `CodeAnalysisEditorUtility.PrintSyntaxNodeOrToken` methods with string indent.
+
 ## 3.0.0 - 2019-08-01
 - [Commits](https://github.com/unity-game-framework/ugf-code-analysis/compare/2.0.0...3.0.0)
 - [Milestone](https://github.com/unity-game-framework/ugf-code-analysis/milestone/3?closed=1)
