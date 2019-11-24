@@ -4,13 +4,13 @@ UGF.Code.Analysis
 
 ## Info
 
-- **Version**: `3.1.0`
+- **Version**: `3.1.1`
 - **Unity Version**: `2019.3.0`
 - **Api Compatibility Level**: `.NET Standard 2.0`
 
 ### Dependencies
 
-- [com.unity.code-analysis](https://bintray.com/unity/unity/com.unity.code-analysis): `0.1.0-preview.2`
+- [com.unity.code-analysis](https://bintray.com/unity/unity/com.unity.code-analysis): `0.1.1-preview`
 
 ### Changelog
 
