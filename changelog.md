@@ -26,6 +26,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - Nothing.
 
+## 3.1.2 - 2020-01-10
+- [Commits](https://github.com/unity-game-framework/ugf-code-analysis/compare/3.1.1...3.1.2)
+- [Milestone](https://github.com/unity-game-framework/ugf-code-analysis/milestone/6?closed=1)
+
+### Changed
+- Package dependencies:
+    - `com.unity.code-analysis`: from `0.1.1-preview` to `0.1.2-preview`.
+
 ## 3.1.1 - 2019-11-24
 - [Commits](https://github.com/unity-game-framework/ugf-code-analysis/compare/3.1.0...3.1.1)
 - [Milestone](https://github.com/unity-game-framework/ugf-code-analysis/milestone/5?closed=1)
