@@ -9,6 +9,6 @@
         "url": "https://github.com/unity-game-framework"
     },
     "dependencies": {
-        "com.unity.code-analysis": "0.1.1-preview"
+        "com.unity.code-analysis": "0.1.2-preview"
     }
 }
