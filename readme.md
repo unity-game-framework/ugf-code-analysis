@@ -4,35 +4,29 @@ UGF.Code.Analysis
 
 ## Info
 
-- **Version**: `3.1.2`
-- **Unity Version**: `2019.3.0`
+- **Version**: `4.0.0-preview`
+- **Unity**: `2020.1`
 - **API Compatibility Level**: `.NET Standard 2.0`
 
 ### Dependencies
 
-- [Code Analysis](https://bintray.com/unity/unity/com.unity.code-analysis): `0.1.2-preview`
+- `com.unity.code-analysis`: `0.1.2-preview`
 
-### Changelog
 
-- [Full changelog][1]
-
-### Registries
-
-- [Stable][2]
-- [Develop][3]
-
-## Description
+### Description
 
 Provides access to Microsoft Roslyn Code Analysis libraries and additional extensions.
 
+### Changelog
+
+- [Full changelog](changelog.md)
+
+### Registry
+
+- [Public](https://bintray.com/unity-game-framework/public)
+
+Read about where packages stored: [Registry](https://github.com/unity-game-framework/organization/blob/master/docs/registry.md).
+
 ## How to Install
 
-Read about how to install any packages from the `Unity Game Framework` registry: [Install Package][4].
-
----
-> Unity Game Framework | Copyright 2019
-
-[1]: changelog.md
-[2]: https://bintray.com/unity-game-framework/stable/com.ugf.code.analysis
-[3]: https://bintray.com/unity-game-framework/dev/com.ugf.code.analysis
-[4]: https://github.com/unity-game-framework/ugf-documentation/wiki/Install-Package
+Read about how to install any packages from the `Unity Game Framework` registry: [Install Package](https://github.com/unity-game-framework/organization/blob/master/docs/install-packages.md).

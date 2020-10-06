@@ -1,27 +1,27 @@
 {
-    "name": "com.ugf.code.analysis",
-    "displayName": "UGF.Code.Analysis",
-    "version": "3.1.2",
-    "unity": "2020.1",
-    "apiCompatibility": ".NET Standard 2.0",
-    "description": "Provides access to Microsoft Roslyn Code Analysis libraries and additional extensions.",
-    "author": {
-        "name": "Unity Game Framework",
-        "url": "https://github.com/unity-game-framework"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/unity-game-framework/ugf-code-analysis.git"
-    },
-    "changelogUrl": "https://github.com/unity-game-framework/ugf-code-analysis/blob/master/license",
-    "licenseUrl": "https://github.com/unity-game-framework/ugf-code-analysis/blob/master/changelog.md",
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com/@unity-game-framework"
-    },
-    "bintray": {
-        "registry": "https://api.bintray.com/content/unity-game-framework/public"
-    },
-    "dependencies": {
-        "com.unity.code-analysis": "0.1.2-preview"
-    }
+  "name": "com.ugf.code.analysis",
+  "displayName": "UGF.Code.Analysis",
+  "version": "4.0.0-preview",
+  "unity": "2020.1",
+  "apiCompatibility": ".NET Standard 2.0",
+  "description": "Provides access to Microsoft Roslyn Code Analysis libraries and additional extensions.",
+  "author": {
+    "name": "Unity Game Framework",
+    "url": "https://github.com/unity-game-framework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/unity-game-framework/ugf-code-analysis.git"
+  },
+  "changelogUrl": "https://github.com/unity-game-framework/ugf-code-analysis/blob/master/license",
+  "licenseUrl": "https://github.com/unity-game-framework/ugf-code-analysis/blob/master/changelog.md",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@unity-game-framework"
+  },
+  "bintray": {
+    "registry": "https://api.bintray.com/content/unity-game-framework/public"
+  },
+  "dependencies": {
+    "com.unity.code-analysis": "0.1.2-preview"
+  }
 }
