@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace UGF.Code.Analysis.Editor
 {
-    public static partial class CodeAnalysisEditorExtensions
+    public static class CodeAnalysisEditorExtensions
     {
         /// <summary>
         /// Prints full hierarchy of the specified syntax tree as string representation.
