@@ -9,7 +9,7 @@ namespace UGF.Code.Analysis.Editor
     /// <summary>
     /// Provides utilities to work with code analysis in editor.
     /// </summary>
-    public static partial class CodeAnalysisEditorUtility
+    public static class CodeAnalysisEditorUtility
     {
         /// <summary>
         /// Gets the project compilation with all available references.
@@ -30,7 +30,7 @@ namespace UGF.Code.Analysis.Editor
         /// <returns></returns>
         public static CSharpCompilation GetProjectCompilation()
         {
-            CSharpCompilation compilation = CSharpCompilation.Create("Project Compilation");
+            var compilation = CSharpCompilation.Create("Project Compilation");
 
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
